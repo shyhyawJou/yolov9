@@ -136,6 +136,7 @@ def run(
 
     # Configure
     model.eval()
+
     cuda = device.type != 'cpu'
     #is_coco = isinstance(data.get('val'), str) and data['val'].endswith(f'coco{os.sep}val2017.txt')  # COCO dataset
     is_coco = isinstance(data.get('val'), str) and data['val'].endswith(f'val2017.txt')  # COCO dataset
@@ -319,6 +320,12 @@ def run(
     maps = np.zeros(nc) + map
     for i, c in enumerate(ap_class):
         maps[c] = ap[i]
+    
+    import pandas as pd
+    classes = names.values()
+    F1 = 2 * p * r / (p + r + 1e-9)
+    #df = pd.DataFrame(zip(p, r, F1, ap50), columns=['P', 'R', 'F1', 'mAP50'], index=classes)
+    #df.to_csv(f'{save_dir}/result.csv')
     return (mp, mr, map50, map, *(loss.cpu() / len(dataloader)).tolist()), maps, t
 
 

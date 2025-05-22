@@ -562,7 +562,7 @@ def run(
             m.export = True
     for n, c in model.named_modules():
         print(type(c).__name__)
-    exit()
+    #exit()
 
     for _ in range(2):
         y = model(im)  # dry runs
